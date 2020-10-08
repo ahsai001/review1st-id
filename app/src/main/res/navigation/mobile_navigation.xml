@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="id.review1st.mobile.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_brand"
+        android:name="id.review1st.mobile.ui.brand.BrandFragment"
+        android:label="@string/title_brand"
+        tools:layout="@layout/fragment_brand">
+        <action
+            android:id="@+id/action_brand_to_detail"
+            app:destination="@+id/navigation_detail_brand">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_detail_brand"
+        android:name="id.review1st.mobile.ui.detailbrand.DetailBrandFragment"
+        android:label="@string/title_compare"
+        tools:layout="@layout/fragment_compare" />
+
+    <fragment
+        android:id="@+id/navigation_compare"
+        android:name="id.review1st.mobile.ui.compare.CompareFragment"
+        android:label="@string/title_compare"
+        tools:layout="@layout/fragment_compare" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="id.review1st.mobile.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_compare" />
+</navigation>
