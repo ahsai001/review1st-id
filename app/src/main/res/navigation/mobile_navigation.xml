@@ -25,18 +25,12 @@
     <fragment
         android:id="@+id/navigation_detail_brand"
         android:name="id.review1st.mobile.ui.detailbrand.DetailBrandFragment"
-        android:label="@string/title_compare"
+        android:label="@string/title_brand"
         tools:layout="@layout/fragment_compare" />
 
     <fragment
         android:id="@+id/navigation_compare"
         android:name="id.review1st.mobile.ui.compare.CompareFragment"
         android:label="@string/title_compare"
-        tools:layout="@layout/fragment_compare" />
-
-    <fragment
-        android:id="@+id/navigation_search"
-        android:name="id.review1st.mobile.ui.search.SearchFragment"
-        android:label="@string/title_search"
         tools:layout="@layout/fragment_compare" />
 </navigation>

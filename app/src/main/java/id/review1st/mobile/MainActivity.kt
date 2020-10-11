@@ -1,5 +1,7 @@
 package id.review1st.mobile
 
+import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -7,6 +9,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -14,9 +19,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.ahsailabs.alutils.EventsUtil
 import id.review1st.mobile.events.BrowseEvent
 import id.review1st.mobile.events.CompareEvent
-import id.review1st.mobile.ui.search.WebViewActivity
+import id.review1st.mobile.ui.search.SearchActivity
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setLogo(R.drawable.ic_logo)
         supportActionBar?.setDisplayUseLogoEnabled(true)
 
+        val mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         EventsUtil.register(this)
     }
 
@@ -47,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.main_menu_action_search){
-            WebViewActivity.start(this,Configs.BASE_URL,Configs.SEARCH_URL,"Cari","",android.R.color.black, "search")
+            SearchActivity.start(this,Configs.BASE_URL,Configs.SEARCH_URL,"Cari","",android.R.color.black, "search")
             return true
         }
         return super.onOptionsItemSelected(item)

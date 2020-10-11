@@ -1,6 +1,5 @@
 package id.review1st.mobile.ui.search
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.MailTo
@@ -9,29 +8,27 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
 import android.webkit.GeolocationPermissions
-import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.fragment.findNavController
 import com.ahsailabs.alcore.constants.AlCoreConstanta
 import com.ahsailabs.alcore.core.BaseActivity
 import com.ahsailabs.alutils.CommonUtil
-import com.ahsailabs.alutils.EventsUtil
 import id.review1st.mobile.Configs
 import id.review1st.mobile.R
 import id.review1st.mobile.bases.GeneralWebViewFragment
 import id.review1st.mobile.events.BrowseEvent
 import id.review1st.mobile.events.CompareEvent
+import id.review1st.mobile.interfaces.WebAppInterface
 import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by ahmad s on 3/17/2016.
  */
-class WebViewActivity : BaseActivity() {
+class SearchActivity : BaseActivity() {
     private var newFragment: WebViewFragment? = null
     private var baseUrl: String? = null
     private var url: String? = null
@@ -102,10 +99,7 @@ class WebViewActivity : BaseActivity() {
         transaction.replace(R.id.webview_main_fragment, newFragment!!, usedTag)
         transaction.commit()
 
-
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setLogo(R.drawable.ic_logo)
-        supportActionBar?.setDisplayUseLogoEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -159,7 +153,7 @@ class WebViewActivity : BaseActivity() {
 
         override fun setupWebview(webView: WebView) {
             super.setupWebview(webView)
-            //webView.addJavascriptInterface(new WebViewFragment.WebAppInterface(this.getActivity()), getString(com.ahsailabs.alcore.R.string.app_name).replace(" ","").toLowerCase());
+            webView.addJavascriptInterface(WebAppInterface(this.requireActivity()), getString(R.string.app_name).replace(" ","").toLowerCase());
         }
 
         override fun isPreserveHistoryInsteadOfUsingHeaderWhenFollowLink(): Boolean {
@@ -227,38 +221,7 @@ class WebViewActivity : BaseActivity() {
             return false
         }
 
-        private inner class WebAppInterface
-        /** Instantiate the interface and set the context  */ internal constructor(var activity: Activity) {
 
-            /** Show a toast from the web page  */
-            @JavascriptInterface
-            fun showToast(toast: String?) {
-                CommonUtil.showToast(activity, toast)
-            }
-
-            @JavascriptInterface
-            fun showInfo(title: String?, info: String?) {
-                CommonUtil.showInfo(activity, title, info)
-            }
-
-            @JavascriptInterface
-            fun webDescription(desc: String?) {
-                //Toast.makeText(activity.getBaseContext(), desc, Toast.LENGTH_SHORT).show();
-            }
-
-            @JavascriptInterface
-            fun showActionBar(title: String?) {
-                if (!TextUtils.isEmpty(title)) {
-                    (activity as BaseActivity).supportActionBar!!.title = title
-                }
-                (activity as BaseActivity).supportActionBar!!.show()
-            }
-
-            @JavascriptInterface
-            fun reload() {
-            }
-
-        }
     }
 
     companion object {
@@ -280,7 +243,7 @@ class WebViewActivity : BaseActivity() {
             pageTag: String?
         ) {
             val webviewIntent =
-                Intent(context, WebViewActivity::class.java)
+                Intent(context, SearchActivity::class.java)
             webviewIntent.putExtra(
                 PARAM_BASE_URL,
                 baseUrl

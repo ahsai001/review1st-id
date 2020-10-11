@@ -11,34 +11,40 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ahsailabs.alcore.core.BaseRecyclerViewAdapter
+import com.ahsailabs.alutils.SwipeRefreshLayoutUtil
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.ParsedRequestListener
 import id.review1st.mobile.Configs
+import id.review1st.mobile.MainViewModel
 import id.review1st.mobile.R
 import id.review1st.mobile.ui.brand.models.Brand
 import id.review1st.mobile.ui.brand.models.BrandResponse
 import kotlinx.android.synthetic.main.fragment_brand.*
 
 class BrandFragment : Fragment() {
-    private lateinit var dashboardViewModel: BrandViewModel
-    private var brandAdapter: BrandAdapter? = null
-    private var brandList: ArrayList<Brand> = ArrayList()
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var brandAdapter: BrandAdapter
+    private var isRecreated: Boolean = false
+    private var swipeRefreshLayoutUtil: SwipeRefreshLayoutUtil? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        brandAdapter = BrandAdapter(brandList)
-        brandAdapter?.addOnChildViewClickListener(object : BaseRecyclerViewAdapter.OnChildViewClickListener<Brand>{
-            override fun onClick(view: View?, dataModel: Brand?, position: Int) {
-                //WebViewActivity.start(activity,"https://www.review1st.id",dataModel?.url,dataModel?.title,"default message",android.R.color.black,"brand", false)
+        mainViewModel = ViewModelProvider(activity as AppCompatActivity).get(MainViewModel::class.java)
+        brandAdapter = BrandAdapter(mainViewModel.brandList)
 
-                findNavController().navigate(R.id.action_brand_to_detail,Bundle().apply { putString("url",dataModel?.url) })
+        brandAdapter.addOnChildViewClickListener(object : BaseRecyclerViewAdapter.OnChildViewClickListener<Brand>{
+            override fun onClick(view: View?, dataModel: Brand?, position: Int) {
+                findNavController().navigate(R.id.action_brand_to_detail,
+                    Bundle().apply {
+                        putString("url",dataModel?.url)
+                        putString("title",dataModel?.title)
+                    })
             }
 
             override fun onLongClick(view: View?, dataModel: Brand?, position: Int) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -49,12 +55,19 @@ class BrandFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel = ViewModelProvider(this).get(BrandViewModel::class.java)
         return inflater.inflate(R.layout.fragment_brand, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(savedInstanceState != null){
+            isRecreated = true
+        }
+
+        swipeRefreshLayoutUtil = SwipeRefreshLayoutUtil.init(srlBrand){
+            loadData()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -63,9 +76,7 @@ class BrandFragment : Fragment() {
             layoutManager = GridLayoutManager(activity,3)
             adapter = brandAdapter
         }
-
-
-        loadData()
+        swipeRefreshLayoutUtil?.refreshNow()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -75,29 +86,51 @@ class BrandFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun showLoading(){
+        rvBrand.visibility = View.GONE
+        srvBrand.visibility = View.VISIBLE
+        srvBrand.showShimmerAdapter()
+    }
+
+
+    private fun hideLoading(){
+        srvBrand.hideShimmerAdapter()
+        rvBrand.visibility = View.VISIBLE
+        srvBrand.visibility = View.GONE
+        swipeRefreshLayoutUtil?.refreshDone()
+    }
+
     private fun loadData() {
-        AndroidNetworking.get(Configs.BRAND_URL)
-            .setPriority(Priority.HIGH)
-            .setTag("get-brands")
-            .build()
-            .getAsObject(BrandResponse::class.java,object:ParsedRequestListener<BrandResponse>{
-                override fun onResponse(response: BrandResponse?) {
-                    response?.let{ it ->
-                        if(it.status) {
-                            response.data?.let {
-                                brandList.clear()
-                                brandList.addAll(it)
-                                brandAdapter?.notifyDataSetChanged()
+        if(!isRecreated){
+            isRecreated = false
+            showLoading()
+            AndroidNetworking.get(Configs.BRAND_URL)
+                .setPriority(Priority.HIGH)
+                .setTag("get-brands")
+                .build()
+                .getAsObject(BrandResponse::class.java,
+                    object : ParsedRequestListener<BrandResponse> {
+                        override fun onResponse(response: BrandResponse?) {
+                            response?.let { it ->
+                                if (it.status) {
+                                    response.data?.let {
+                                        mainViewModel.brandList.clear()
+                                        mainViewModel.brandList.addAll(it)
+                                        brandAdapter.notifyDataSetChanged()
+                                    }
+                                }
                             }
+                            hideLoading()
                         }
-                    }
-                }
 
-                override fun onError(anError: ANError?) {
+                        override fun onError(anError: ANError?) {
+                            hideLoading()
+                        }
 
-                }
-
-            })
+                    })
+        } else {
+            hideLoading()
+        }
     }
 
     override fun onDestroyView() {

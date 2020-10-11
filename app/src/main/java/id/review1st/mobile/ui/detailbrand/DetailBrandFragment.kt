@@ -9,13 +9,29 @@ import android.webkit.GeolocationPermissions
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import id.review1st.mobile.Configs
 import id.review1st.mobile.R
 import id.review1st.mobile.bases.GeneralWebViewFragment
+import id.review1st.mobile.interfaces.WebAppInterface
 
 class DetailBrandFragment : GeneralWebViewFragment() {
     private lateinit var viewModel: DetailBrandViewModel
+
+    private var title: String? = "Brand"
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+        //(activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).supportActionBar?.title = title
+    }
+
+    override fun setupWebview(webView: WebView) {
+        super.setupWebview(webView)
+        webView.addJavascriptInterface(WebAppInterface(this.requireActivity()), getString(R.string.app_name).replace(" ","").toLowerCase());
+    }
+
     override fun onGeolocationPermissionsShowPrompt(
         origin: String?,
         callback: GeolocationPermissions.Callback?
@@ -25,6 +41,7 @@ class DetailBrandFragment : GeneralWebViewFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val url = arguments?.getString("url")
+        title = arguments?.getString("title")
         val headerMaps = HashMap<String, String>()
         headerMaps["X-Type"] = "mobile"
         setArg(-1, Configs.BASE_URL, url, "",android.R.color.black,  false,false,null,null,null,headerMaps,null)
@@ -71,6 +88,7 @@ class DetailBrandFragment : GeneralWebViewFragment() {
     override fun getCustomInfoView(): View? {
         return null
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == android.R.id.home){

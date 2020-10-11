@@ -11,9 +11,18 @@ import androidx.navigation.fragment.findNavController
 import id.review1st.mobile.Configs
 import id.review1st.mobile.R
 import id.review1st.mobile.bases.GeneralWebViewFragment
+import id.review1st.mobile.interfaces.WebAppInterface
 
 class HomeFragment : GeneralWebViewFragment() {
     private lateinit var homeViewModel: HomeViewModel
+
+
+
+    override fun setupWebview(webView: WebView) {
+        super.setupWebview(webView)
+        webView.addJavascriptInterface(WebAppInterface(this.requireActivity()), getString(R.string.app_name).replace(" ","").toLowerCase());
+    }
+
     override fun onGeolocationPermissionsShowPrompt(
         origin: String?,
         callback: GeolocationPermissions.Callback?

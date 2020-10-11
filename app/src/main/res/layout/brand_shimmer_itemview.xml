@@ -6,43 +6,28 @@
     android:layout_margin="7dp"
     android:padding="4dp">
 
-    <RelativeLayout
+    <View
         android:id="@+id/ivImagePanel"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/circle_drawable"
-        android:orientation="vertical"
+        android:background="@drawable/circle_shimmer_drawable"
         app:layout_constraintBottom_toTopOf="@+id/llText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
+    </View>
 
 
-    <LinearLayout
+    <View
         android:id="@+id/llText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_height="20dp"
+        android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivImagePanel">
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test aaja"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
-    </LinearLayout>
+    </View>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

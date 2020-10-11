@@ -19,11 +19,9 @@ class BrandAdapter(brandList: ArrayList<Brand>): BaseRecyclerViewAdapter<Brand, 
     class BrandViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val ivImage = itemView.ivImage
         private val tvTitle = itemView.tvTitle
-        private val tvTotalDevice = itemView.tvTotalDevice
 
         fun bindViewHolder(brand: Brand){
             tvTitle.text = brand.title
-            tvTotalDevice.text = "(${brand.totalDevice})"
             Picasso.get().load(brand.icon).into(ivImage)
         }
     }
