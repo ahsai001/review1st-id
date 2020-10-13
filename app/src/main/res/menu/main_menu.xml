@@ -5,4 +5,12 @@
         android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/wording_cari"
         app:showAsAction="ifRoom"/>
+    <item android:id="@+id/main_menu_action_message_list"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Show Message List"
+        app:showAsAction="never"/>
+    <item android:id="@+id/main_menu_action_bookmark_list"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Show Bookmark List"
+        app:showAsAction="never"/>
 </menu>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "96794190589",
+    "firebase_url": "https://review1st-id.firebaseio.com",
+    "project_id": "review1st-id",
+    "storage_bucket": "review1st-id.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96794190589:android:cd4b857e1785eda3bc1494",
+        "android_client_info": {
+          "package_name": "id.review1st.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "96794190589-nostnc1cnni7ladpm6mum6v4389aa8me.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuW2Z5l87nvvIMt24ZUbJ5c_7gNH530Vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "96794190589-nostnc1cnni7ladpm6mum6v4389aa8me.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

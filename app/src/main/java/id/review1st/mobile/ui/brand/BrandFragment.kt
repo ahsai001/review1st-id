@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_brand.*
 class BrandFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var brandAdapter: BrandAdapter
-    private var isRecreated: Boolean = false
+    private var isReadCache: Boolean = false
     private var swipeRefreshLayoutUtil: SwipeRefreshLayoutUtil? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +61,8 @@ class BrandFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(savedInstanceState != null){
-            isRecreated = true
+        if(savedInstanceState != null || mainViewModel.brandList.size > 0){
+            isReadCache = true
         }
 
         swipeRefreshLayoutUtil = SwipeRefreshLayoutUtil.init(srlBrand){
@@ -101,8 +101,7 @@ class BrandFragment : Fragment() {
     }
 
     private fun loadData() {
-        if(!isRecreated){
-            isRecreated = false
+        if(!isReadCache){
             showLoading()
             AndroidNetworking.get(Configs.BRAND_URL)
                 .setPriority(Priority.HIGH)
@@ -131,6 +130,8 @@ class BrandFragment : Fragment() {
         } else {
             hideLoading()
         }
+
+        isReadCache = false
     }
 
     override fun onDestroyView() {

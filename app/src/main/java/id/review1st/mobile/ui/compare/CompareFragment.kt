@@ -35,7 +35,7 @@ class CompareFragment : GeneralWebViewFragment() {
         val url = arguments?.getString("url")
         val headerMaps = HashMap<String, String>()
         headerMaps["X-Type"] = "mobile"
-        setArg(-1, Configs.BASE_URL, url?:Configs.COMPARE_URL, "",android.R.color.black,  false,false,null,null,null,headerMaps,null)
+        setArg(-1, Configs.BASE_URL, url?:Configs.COMPARE_URL, "",android.R.color.black,  true,false,null,null,null,headerMaps,null)
         super.onCreate(savedInstanceState)
     }
 

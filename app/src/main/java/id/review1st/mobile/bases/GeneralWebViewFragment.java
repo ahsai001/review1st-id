@@ -166,7 +166,7 @@ public abstract class GeneralWebViewFragment extends Fragment {
         isShowShare = CommonUtil.getBooleanFragmentArgument(getArguments(),ARG_SHOW_SHARE, false);
         headerMap = (HashMap<String, String>) CommonUtil.getSerializableFragmentArgument(getArguments(), ARG_HEADER_MAP, null);
         whiteListDomains = CommonUtil.getStringArrayListFragmentArgument(getArguments(), ARG_WHITELIST_DOMAIN, null);
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
     }
 
 
@@ -967,7 +967,6 @@ public abstract class GeneralWebViewFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        /*
         if(isWebPageFromUrl(rootUrl)) {
             inflater.inflate(R.menu.menu_general_webview, menu);
             if(isWebPageFromNetwork(rootUrl)) {
@@ -989,14 +988,19 @@ public abstract class GeneralWebViewFragment extends Fragment {
                 menu.findItem(R.id.action_page_share).setVisible(false);
                 menu.findItem(R.id.action_page_browser).setVisible(false);
             }
+
+            //custom for this app
+            menu.findItem(R.id.action_reload).setVisible(false);
+            menu.findItem(R.id.action_page_close).setVisible(false);
+            menu.findItem(R.id.action_page_share).setVisible(false);
+            menu.findItem(R.id.action_page_browser).setVisible(false);
         }
-         */
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        /*if(isWebPageFromUrl(rootUrl)) {
+        if(isWebPageFromUrl(rootUrl)) {
             if(isWebPageFromNetwork(rootUrl)) {
                 if (isShowBookmark && !TextUtils.isEmpty(currentUrl)) {
                     if (BookmarkModel.findBookmark(currentUrl) == null) {
@@ -1022,7 +1026,13 @@ public abstract class GeneralWebViewFragment extends Fragment {
                 menu.findItem(R.id.action_page_share).setVisible(false);
                 menu.findItem(R.id.action_page_browser).setVisible(false);
             }
-        }*/
+
+            //custom for this app
+            menu.findItem(R.id.action_reload).setVisible(false);
+            menu.findItem(R.id.action_page_close).setVisible(false);
+            menu.findItem(R.id.action_page_share).setVisible(false);
+            menu.findItem(R.id.action_page_browser).setVisible(false);
+        }
 
     }
 

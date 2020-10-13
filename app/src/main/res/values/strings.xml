@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_brand">Brand</string>
     <string name="title_compare">Compare</string>
-    <string name="wording_cari">Cari</string>
+    <string name="wording_cari">Search phone model</string>
     <string name="title_search">Search</string>
     <string name="query_hint">Cari model hape</string>
 </resources>

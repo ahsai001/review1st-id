@@ -27,4 +27,14 @@ class WebAppInterface(var activity: FragmentActivity) {
         (activity as AppCompatActivity).supportActionBar?.title = title
     }
 
+    @JavascriptInterface
+    fun shareContent(shareTitle: String, subject: String, body: String) {
+        CommonUtil.shareContent(activity,shareTitle, subject, body)
+    }
+
+    @JavascriptInterface
+    fun bookmark() {
+
+    }
+
 }
